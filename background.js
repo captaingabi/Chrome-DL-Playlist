@@ -11,7 +11,7 @@ let runtime = {
 
 const mediaRegExp = /(https?:\/\/(.*))\/(.*)(\.mp3|\.mp4|\.webm)/;
 
-chrome.storage.local.get('playlist', (result) => {
+chrome.storage.sync.get('playlist', (result) => {
   if (result && result.playlist) runtime.playlist = result.playlist;
   else runtime.playlist = { media: [] };
 });
@@ -36,7 +36,7 @@ const moveMediaInList = (srcMediaUrl, dstMediaUrl) => {
     } else result.push(media);
     return result;
   }, []);
-  chrome.storage.local.set({ playlist: runtime.playlist }, () => {});
+  chrome.storage.sync.set({ playlist: runtime.playlist }, () => {});
 };
 
 const updateVideoSettings = (tab) => {
@@ -87,16 +87,21 @@ const playExact = (mediaUrl) => {
 const addMedia = () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];
-    runtime.playlist.media.push({ url: tab.url, title: decodeURI(tab.url.match(mediaRegExp)[3]) });
-    chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
-    chrome.storage.local.set({ playlist: runtime.playlist }, () => {});
+    if (tab.url.match(mediaRegExp)) {
+      runtime.playlist.media.push({
+        url: tab.url,
+        title: decodeURI(tab.url.match(mediaRegExp)[3]),
+      });
+      chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
+      chrome.storage.sync.set({ playlist: runtime.playlist }, () => {});
+    }
   });
 };
 
 const removeMedia = (mediaUrl) => {
   runtime.playlist.media = runtime.playlist.media.filter((media) => media.url != mediaUrl);
   chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
-  chrome.storage.local.set({ playlist: runtime.playlist }, () => {});
+  chrome.storage.sync.set({ playlist: runtime.playlist }, () => {});
 };
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -144,8 +149,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
     }
     if (request.msg === 'update_volume') {
-      runtime.volume = request.volume;
-      chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
+      if (runtime.tabId === sender.tab.id) {
+        runtime.volume = request.volume;
+        chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
+      }
     }
     if (request.msg === 'set_paused') {
       runtime.paused = runtime.paused ? false : true;
@@ -154,8 +161,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
     }
     if (request.msg === 'update_paused') {
-      runtime.paused = request.paused;
-      chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
+      if (runtime.tabId === sender.tab.id) {
+        runtime.paused = request.paused;
+        chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
+      }
     }
     if (request.msg === 'move_media_in_playlist') {
       moveMediaInList(request.src, request.dst);
