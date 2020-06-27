@@ -1,0 +1,17 @@
+<svg width="1000" height="500" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_23_blur">
+   <feGaussianBlur stdDeviation="0"/>
+  </filter>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="502" width="1002" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_20" y="273.86025" x="212.578995" stroke-opacity="null" stroke-width="0" stroke="null" fill="#000000">Add</text>
+  <rect stroke="null" id="svg_22" height="500" width="1000" y="0" x="0" stroke-opacity="null" stroke-width="null" fill="#0000ff"/>
+  <text filter="url(#svg_23_blur)" font-weight="bold" stroke="null" transform="matrix(20.398352262575564,0,0,17.66463284068852,-41.661243961431985,-2985.577854799948) " xml:space="preserve" text-anchor="start" font-family="Arvo, sans-serif" font-size="24" id="svg_23" y="191.511861" x="3.174794" stroke-opacity="null" stroke-width="0" fill="#ffffff">Add</text>
+ </g>
+</svg>

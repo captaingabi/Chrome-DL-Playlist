@@ -1,0 +1,64 @@
+.previous-button {
+  background: url(../SVG/previous.svg) no-repeat top left;
+  background-size: contain;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.previous-button:disabled {
+  background: url(../SVG/previous_gray.svg) no-repeat top left;
+  background-size: contain;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.play-button {
+  background: url(../SVG/play.svg) no-repeat top left;
+  background-size: contain;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.play-button:disabled {
+  background: url(../SVG/play_gray.svg) no-repeat top left;
+  background-size: contain;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.next-button {
+  background: url(../SVG/next.svg) no-repeat top left;
+  background-size: contain;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.pause-button {
+  background: url(../SVG/pause.svg) no-repeat top left;
+  background-size: contain;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.pause-button:disabled {
+  background: url(../SVG/pause_gray.svg) no-repeat top left;
+  background-size: contain;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.add-button {
+  background: url(../SVG/add.svg) no-repeat top left;
+  background-size: contain;
+  display: inline-block;
+  height: 30px;
+  width: 60px;
+  margin-left: 100px;
+}

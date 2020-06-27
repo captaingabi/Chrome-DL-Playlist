@@ -1,0 +1,16 @@
+.tile {
+  width: 240px;
+  height: 30px;
+  line-height: 30px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.tile-playlist {
+  width: 240px;
+  height: 30px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

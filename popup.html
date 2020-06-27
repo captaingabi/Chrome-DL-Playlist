@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="CSS/tile.css" />
+    <link rel="stylesheet" type="text/css" href="CSS/buttons.css" />
+    <link rel="stylesheet" type="text/css" href="CSS/volume.css" />
+    <link rel="stylesheet" type="text/css" href="CSS/randomizer.css" />
+    <link rel="stylesheet" type="text/css" href="CSS/playlist.css" />
+  </head>
+  <body>
+    <div class="tile">
+      <button id="previousButton" class="previous-button"></button>
+      <button id="playButton" class="play-button"></button>
+      <button id="nextButton" class="next-button"></button>
+      <button id="addButton" class="add-button"></button>
+    </div>
+    <div class="tile">
+      <img id="volumeIcon" class="volume-icon" src='SVG/speaker.svg'>
+      <input id="volumeInput" class="volume-slider" type="range" min="0" max="1" step="0.01"></input>
+    </div>
+    <div class="tile">
+      <label class="switch">
+        <input type="checkbox" id="randomInput" />
+        <span class="slider round"></span>
+      </label>
+      <label id="randomizeLabel" class='randomize-label'>Randomize</label>
+    </div>
+    <div class='tile-playlist' id="playListDiv"></div>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
