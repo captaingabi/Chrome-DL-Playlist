@@ -11,7 +11,7 @@ let runtime = {
 
 const mediaRegExp = /(https?:\/\/(.*))\/(.*)(\.mp3|\.mp4|\.webm)/;
 
-chrome.storage.sync.get('playlist', (result) => {
+chrome.storage.local.get('playlist', (result) => {
   if (result && result.playlist) runtime.playlist = result.playlist;
   else runtime.playlist = { media: [] };
 });
@@ -36,7 +36,7 @@ const moveMediaInList = (srcMediaUrl, dstMediaUrl) => {
     } else result.push(media);
     return result;
   }, []);
-  chrome.storage.sync.set({ playlist: runtime.playlist }, () => {});
+  chrome.storage.local.set({ playlist: runtime.playlist }, () => {});
 };
 
 const updateVideoSettings = (tab) => {
@@ -85,23 +85,26 @@ const playExact = (mediaUrl) => {
 };
 
 const addMedia = () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const tab = tabs[0];
-    if (tab.url.match(mediaRegExp)) {
-      runtime.playlist.media.push({
-        url: tab.url,
-        title: decodeURI(tab.url.match(mediaRegExp)[3]),
-      });
-      chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
-      chrome.storage.sync.set({ playlist: runtime.playlist }, () => {});
-    }
+  chrome.tabs.query({ currentWindow: true }, (tabs) => {
+    tabs.forEach((tab) => {
+      if (
+        tab.url.match(mediaRegExp) &&
+        !runtime.playlist.media.find((media) => media.url === tab.url)
+      )
+        runtime.playlist.media.push({
+          url: tab.url,
+          title: decodeURI(tab.url.match(mediaRegExp)[3]),
+        });
+    });
+    chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
+    chrome.storage.local.set({ playlist: runtime.playlist }, () => {});
   });
 };
 
 const removeMedia = (mediaUrl) => {
   runtime.playlist.media = runtime.playlist.media.filter((media) => media.url != mediaUrl);
   chrome.runtime.sendMessage({ msg: 'refresh_trigger', runtime });
-  chrome.storage.sync.set({ playlist: runtime.playlist }, () => {});
+  chrome.storage.local.set({ playlist: runtime.playlist }, () => {});
 };
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
